@@ -49,7 +49,7 @@ public class MiaoshaUserService {
         response.addCookie(cookie);
     }
 
-    public Result<Boolean> login(HttpServletResponse response,LoginVo loginVo) {
+    public Result<String> login(HttpServletResponse response,LoginVo loginVo) {
         if(loginVo == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
@@ -65,7 +65,7 @@ public class MiaoshaUserService {
             //生成cookie
             String token = UUIDUtil.uuid();
             addCookie(response,token,miaoshaUser);
-            return Result.success(true);
+            return Result.success(token);
         }else{
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }

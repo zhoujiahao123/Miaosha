@@ -46,6 +46,7 @@ public class GoodsController {
         long startAt = goods.getStartDate().getTime();
         long endAt = goods.getEndDate().getTime();
         long now = System.currentTimeMillis();
+        System.err.println("`````");
 
         int miaoshaStatus = 0;//0未开始，1进行中，2已结束
         int remainSecond = 0;//-1已结束
