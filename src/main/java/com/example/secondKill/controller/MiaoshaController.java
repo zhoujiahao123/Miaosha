@@ -26,6 +26,11 @@ public class MiaoshaController {
     MiaoshaService miaoshaService;
 
 
+    /**
+     * 测试：
+     *1365 QPS
+     * in 10000 * 10
+     */
     @RequestMapping("/do_miaosha")
     public String list(Model model, MiaoshaUser user,
                        @RequestParam("goodsId")long goodsId){

@@ -28,6 +28,10 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     *压力测试QPS:2290
+     * IN 10000 * 10
+     */
     @RequestMapping("/do_login")
     @ResponseBody
     public Result<String> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){
