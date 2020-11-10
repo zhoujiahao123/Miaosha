@@ -27,9 +27,48 @@ public class MiaoshaUserService {
 
     @Autowired
     RedisService redisService;
+
+    @Autowired(required = false)
+    MiaoshaUserDao userDao;
+
     public static final String COOKIE_NAME_TOKEN = "token";
+
+    /**
+     * 通过id获取用户，先取缓存，再取数据库
+     * @param id
+     * @return
+     */
     public MiaoshaUser getById(long id) {
-        return miaoshaUserDao.getById(id);
+        MiaoshaUser user = redisService.get(MiaoshaUserKey.getById,String.valueOf(id),MiaoshaUser.class);
+        if(user != null) return user;
+        user = miaoshaUserDao.getById(id);
+        redisService.set(MiaoshaUserKey.getById,String.valueOf(id),user);
+        return user;
+    }
+
+    /**
+     * 更新操作，采用的是简单的双删策略
+     * @param token
+     * @param id
+     * @param formPassword
+     * @return
+     */
+    public boolean updatePassword(String token,long id,String formPassword){
+        MiaoshaUser user = getById(id);
+        if(user == null) throw new GlobalException(CodeMsg.USER_NOTFOUND);
+        //删缓存
+        redisService.delete(MiaoshaUserKey.getById,String.valueOf(id));
+        MiaoshaUser toBeUpdate = new MiaoshaUser();
+        toBeUpdate.setId(id);
+        String newPass = MD5Util.formPassToDbPass(formPassword,user.getSalt());
+        toBeUpdate.setPassword(newPass);
+        //更新数据库
+        userDao.updatePassword(toBeUpdate);
+        //再删缓存
+        redisService.delete(MiaoshaUserKey.getById,String.valueOf(id));
+        user.setPassword(newPass);
+        redisService.set(MiaoshaUserKey.token,token,user);
+        return true;
     }
 
     public MiaoshaUser getByToken(HttpServletResponse response,String token){

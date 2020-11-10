@@ -117,6 +117,26 @@ public class RedisService {
         }
     }
 
+    /**
+     * 删除某个key，先获取jedis，然后拼接真正的key，删除后关闭Jedis就可
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public boolean delete(KeyPrefix prefix,String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            String realKey = prefix.getPrefix() + key;
+            long result = jedis.del(realKey);
+            return result>0;
+        }finally {
+            returnToPoll(jedis);
+        }
+
+
+    }
+
 
 
 }
