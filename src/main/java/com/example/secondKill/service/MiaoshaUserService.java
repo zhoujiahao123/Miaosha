@@ -55,7 +55,7 @@ public class MiaoshaUserService {
      */
     public boolean updatePassword(String token,long id,String formPassword){
         MiaoshaUser user = getById(id);
-        if(user == null) throw new GlobalException(CodeMsg.USER_NOTFOUND);
+        if(user == null) throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         //删缓存
         redisService.delete(MiaoshaUserKey.getById,String.valueOf(id));
         MiaoshaUser toBeUpdate = new MiaoshaUser();
@@ -96,7 +96,7 @@ public class MiaoshaUserService {
         String formPassword = loginVo.getPassword();
         MiaoshaUser miaoshaUser = getById(Long.parseLong(mobile));
         if (miaoshaUser == null) {
-            throw new GlobalException(CodeMsg.USER_NOTFOUND);
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
         String dbPassword = miaoshaUser.getPassword();
         String salt = miaoshaUser.getSalt();

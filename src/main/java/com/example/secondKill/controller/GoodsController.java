@@ -69,7 +69,7 @@ public class GoodsController {
         return html;
     }
 
-    @RequestMapping(value="/to_detail/{goodsId}",produces="text/html")
+    @RequestMapping(value="/to_detail2/{goodsId}",produces="text/html")
     @ResponseBody
     public String detail2(HttpServletRequest request, HttpServletResponse response, Model model,MiaoshaUser user,
                           @PathVariable("goodsId")long goodsId) {
@@ -113,8 +113,8 @@ public class GoodsController {
         return html;
     }
 
-/**
-    @RequestMapping(value="/detail/{goodsId}")
+
+    @RequestMapping(value="/to_detail/{goodsId}")
     @ResponseBody
     public Result<GoodsDetailVo> detail(HttpServletRequest request, HttpServletResponse response, Model model, MiaoshaUser user,
                                         @PathVariable("goodsId")long goodsId) {
@@ -141,6 +141,6 @@ public class GoodsController {
         vo.setMiaoshaStatus(miaoshaStatus);
         return Result.success(vo);
     }
-*/
+
 
 }

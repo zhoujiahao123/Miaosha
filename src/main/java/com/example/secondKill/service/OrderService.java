@@ -2,15 +2,14 @@ package com.example.secondKill.service;
 
 
 import com.example.secondKill.dao.OrderDao;
-import com.example.secondKill.domain.Goods;
 import com.example.secondKill.domain.MiaoshaOrder;
 import com.example.secondKill.domain.MiaoshaUser;
 import com.example.secondKill.domain.OrderInfo;
+import com.example.secondKill.redis.OrderKey;
 import com.example.secondKill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 
 @Service
@@ -19,8 +18,11 @@ public class OrderService {
     @Autowired(required = false)
     OrderDao orderDao;
 
+    @Autowired
+    RedisService redisService;
+
     public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(long id, long goodsId) {
-        return orderDao.getMiaoshaOrderByUserIdGoodsId(id,goodsId);
+        return redisService.get(OrderKey.getMiaoshaOrderByUidGid,""+id+"_"+goodsId,MiaoshaOrder.class);
     }
 
     @Transactional
@@ -41,6 +43,12 @@ public class OrderService {
         miaoshaOrder.setOrderId(orderId);
         miaoshaOrder.setUserId(user.getId());
         orderDao.insertMiaoshaOrder(miaoshaOrder);
+
+        redisService.set(OrderKey.getMiaoshaOrderByUidGid,""+user.getId()+"_"+goods.getId(),miaoshaOrder);
         return orderInfo;
+    }
+
+    public OrderInfo getOrderById(long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 }

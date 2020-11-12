@@ -4,7 +4,8 @@ public class OrderKey extends BasePrefix {
     public OrderKey(int expireSeconds, String prefix) {
         super(expireSeconds, prefix);
     }
-    private OrderKey(String prefix) {
+    public OrderKey(String prefix) {
         super(prefix);
     }
+    public static OrderKey getMiaoshaOrderByUidGid = new OrderKey("moug");
 }
