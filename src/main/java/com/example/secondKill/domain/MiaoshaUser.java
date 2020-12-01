@@ -1,8 +1,9 @@
 package com.example.secondKill.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MiaoshaUser {
+public class MiaoshaUser implements Serializable {
     private Long id;
     private String nickname;
     private String password;
@@ -58,5 +59,19 @@ public class MiaoshaUser {
     }
     public void setLoginCount(Integer loginCount) {
         this.loginCount = loginCount;
+    }
+
+    @Override
+    public String toString() {
+        return "MiaoshaUser{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", head='" + head + '\'' +
+                ", registerDate=" + registerDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", loginCount=" + loginCount +
+                '}';
     }
 }
