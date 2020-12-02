@@ -31,6 +31,7 @@ public class Test {
             user.setSalt("1a2b3c");
             user.setPassword(MD5Util.inputPassToDbPass("123456", user.getSalt()));
             miaoshaUserDao.insert(user);
+
         }
     }
 

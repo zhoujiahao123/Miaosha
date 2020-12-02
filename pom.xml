@@ -105,6 +105,22 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <!--加载资源目录-->
+                <directory>src/main/resources</directory>
+                <includes>
+                    <!--加载配置文件-->
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <!--加载模板文件-->
+                    <include>**/*.html</include>
+                    <!--加载静态文件-->
+                    <include>/static/</include>
+                </includes>
+
+            </resource>
+        </resources>
     </build>
 
 </project>
